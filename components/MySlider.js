@@ -43,6 +43,18 @@ const MySlider = React.createClass({
             d_x, d_y;
         d_x = touch.clientX - start_x;
         d_y = touch.clientY - start_y;
+        
+        if (d_x < 0) {  // 左滑
+            if (left !== undefined && !left) {    // 禁止左滑
+                return;
+            }
+        }
+
+        if (d_x > 0) { // 右滑
+            if (right !== undefined && !right) {    // 禁止右滑
+                return;
+            }
+        }
 
         sliderElement.style.transform = 'translate3d('+ d_x +'px, 0, 0)';
         sliderElement.style.webkitTransform = 'translate3d('+ d_x +'px, 0, 0)';
@@ -90,11 +102,13 @@ const MySlider = React.createClass({
                     sliderElement.style.oTransform = 'translate3d(0, 0, 0)';
                 } else {
                     if (delta_x > 0) {
+                        if (right !== undefined && !right) return;
                         sliderElement.style.transform = 'translate3d('+ containerWidth +'px, 0, 0)';
                         sliderElement.style.webkitTransform = 'translate3d('+ containerWidth +'px, 0, 0)';
                         sliderElement.style.msTransform = 'translate3d('+ containerWidth +'px, 0, 0)';
                         sliderElement.style.oTransform = 'translate3d('+ containerWidth +'px, 0, 0)';
                     } else {
+                        if (left !== undefined && !left) return;
                         sliderElement.style.transform = 'translate3d(-'+ containerWidth +'px, 0, 0)';
                         sliderElement.style.webkitTransform = 'translate3d(-'+ containerWidth +'px, 0, 0)';
                         sliderElement.style.msTransform = 'translate3d(-'+ containerWidth +'px, 0, 0)';
